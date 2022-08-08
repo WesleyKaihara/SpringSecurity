@@ -23,7 +23,7 @@ public class UserController {
     private BCryptPasswordEncoder passwordEncoder;
 
 
-    @PostMapping(path ="/cadastar")
+    @PostMapping(path = "/cadastrar")
     public ModelAndView save(@RequestBody User newUser){
         Role adminRole = roleRepository.findByRole("ADMIN");
         Role userRole = roleRepository.findByRole("USER");
@@ -32,7 +32,7 @@ public class UserController {
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/");
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 
