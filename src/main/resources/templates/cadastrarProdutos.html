@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Produtos</title>
+</head>
+<body>
+<h1>Cadastrar</h1>
+<div th:if="${param.error}">
+    Dados inválidos
+</div>
+<form th:action="@{/product}" method="post">
+    <input type="hidden" name="enable" value={true}>
+    <div>
+        <label>Nome: <input type="text" name="nome" ></label>
+    </div>
+    <div>
+        <label>Valor: <input type="number" name="valor" ></label>
+    </div>
+    <div>
+        <label>Descrição: <input type="text" name="descricao" ></label>
+    </div>
+    <div>
+        <input type="submit" value="Cadastrar">
+    </div>
+</form>
+</body>
+</html>
