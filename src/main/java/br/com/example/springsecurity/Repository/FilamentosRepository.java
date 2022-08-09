@@ -4,5 +4,5 @@ import br.com.example.springsecurity.Model.Filamento;
 import org.springframework.data.repository.CrudRepository;
 
 public interface FilamentosRepository extends CrudRepository<Filamento,Long> {
-    Filamento findByColor(String cor);
+    Filamento findByCor(String cor);
 }
