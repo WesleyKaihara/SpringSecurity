@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Arrays;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -44,10 +45,11 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public ModelAndView  login (){
+    public ModelAndView login (){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
+        //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:3000/")).build();
     }
 
 
