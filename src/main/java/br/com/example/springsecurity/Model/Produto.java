@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "produto")
-public class Product {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +22,6 @@ public class Product {
     @Column(name = "nomeImagem")
     private String nomeImagem;
 
-    public Product(){
-
-    }
-
-    public Product(String nomeImagem,String nome, float valor, String descricao) {
-        this.nomeImagem = nomeImagem;
-        this.nome = nome;
-        this.valor = valor;
-        this.descricao = descricao;
-    }
 
     public String getNomeImagem() {
         return nomeImagem;

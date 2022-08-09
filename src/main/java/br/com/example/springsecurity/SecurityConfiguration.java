@@ -40,7 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/h2-console/**","/product","/cadastrar","/product/img/**").permitAll()
                 .antMatchers("/admin").access("hasAuthority('ADMIN')")
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("http://localhost:3000", true)
+                .and().formLogin().loginPage("/login").permitAll()
+//               .defaultSuccessUrl("http://localhost:3000", true)
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").permitAll()
                 .and()
@@ -52,13 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-      /* auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("admin"))
-                .authorities("ADMIN")
-                .and()
-                .withUser("wesley")
-                .password(passwordEncoder().encode("12345"))
-                .authorities("USER");*/
+
         auth.userDetailsService(userDetailsServiceBean())
                 .passwordEncoder(passwordEncoder());
     }

@@ -49,10 +49,6 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
-        //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:3000/")).build();
     }
-
-
-
 
 }
