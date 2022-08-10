@@ -1,15 +1,16 @@
 package br.com.example.springsecurity.Controller;
 
 import br.com.example.springsecurity.Model.Comentario;
-import br.com.example.springsecurity.Model.Produto;
 import br.com.example.springsecurity.Repository.ComentarioRepository;
 import br.com.example.springsecurity.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 public class ComentarioController {
@@ -44,4 +45,14 @@ public class ComentarioController {
                         }).orElse(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/comentario/{id}")
+    public ResponseEntity<Optional<Comentario>> deletar(@PathVariable long id){
+        Optional<Comentario> comentario;
+        try {
+            comentarioRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (NoSuchElementException nsee){
+            return new ResponseEntity<Optional<Comentario>>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

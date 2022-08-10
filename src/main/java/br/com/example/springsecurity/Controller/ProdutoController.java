@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 public class ProdutoController {
@@ -48,8 +50,19 @@ public class ProdutoController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @PutMapping("/produto/{id}")
-    public ResponseEntity<Produto> update(@PathVariable long id,@RequestBody Produto produto){
+    @PutMapping(value = "/produto/{id}",consumes = "multipart/form-data")
+    public ResponseEntity<Produto> update(@PathVariable long id,Produto produto,@RequestParam("file") MultipartFile arquivo){
+        try{
+            if(!arquivo.isEmpty()){
+                byte[] bytes = arquivo.getBytes();
+                Path caminho = Paths.get(PathImages+String.valueOf(produto.getId())+arquivo.getOriginalFilename());
+                Files.write(caminho,bytes);
+                produto.setNomeImagem(String.valueOf(produto.getId())+arquivo.getOriginalFilename());
+                produtoRepository.save(produto);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         return produtoRepository.findById(id)
                 .map(Pd -> {
                     Pd.setNome(produto.getNome());
@@ -65,5 +78,16 @@ public class ProdutoController {
     public byte[] getImage (@PathVariable("imagem") String imagem) throws IOException {
         File imagemArquivo = new File(PathImages+imagem);
         return Files.readAllBytes(imagemArquivo.toPath());
+    }
+
+    @DeleteMapping("/produto/{id}")
+    public ResponseEntity<Optional<Produto>> deletar (@PathVariable Long id ){
+        Optional<Produto> produto;
+        try{
+            produtoRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (NoSuchElementException nsee){
+            return  new ResponseEntity<Optional<Produto>>(HttpStatus.NOT_FOUND);
+        }
     }
 }
